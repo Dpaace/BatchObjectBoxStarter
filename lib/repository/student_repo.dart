@@ -5,6 +5,7 @@ abstract class StudentRepository {
   // Student
   Future<List<Student>> getStudents();
   Future<int> addStudent(Student student);
+  Future<Student?> loginStudent(String username, String password);
 }
 
 class StudentRepositoryImpl extends StudentRepository {
@@ -16,5 +17,10 @@ class StudentRepositoryImpl extends StudentRepository {
   @override
   Future<List<Student>> getStudents() {
     return StudentDataSource().getStudents();
+  }
+
+  @override
+  Future<Student?> loginStudent(String username, String password) {
+    return StudentDataSource().loginStudent(username, password);
   }
 }

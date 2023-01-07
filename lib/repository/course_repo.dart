@@ -3,8 +3,9 @@ import 'package:batch_student_starter/model/course.dart';
 
 abstract class CourseRepository {
   // Batch
-  Future<List<Course>> getCourse();
+  Future<List<Course>> getAllCourse();
   Future<int> addCourse(Course course);
+  Future<Course?> getCourseByCourseName(String courseName);
 }
 
 class CourseRepositoryImpl extends CourseRepository {
@@ -14,7 +15,12 @@ class CourseRepositoryImpl extends CourseRepository {
   }
 
   @override
-  Future<List<Course>> getCourse() {
-    return CourseDataSource().getCourse();
+  Future<List<Course>> getAllCourse() {
+    return CourseDataSource().getAllCourse();
+  }
+
+  @override
+  Future<Course?> getCourseByCourseName(String courseName) {
+    return CourseDataSource().getCourseByCourseName(courseName);
   }
 }

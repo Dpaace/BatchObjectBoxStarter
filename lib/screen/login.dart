@@ -1,5 +1,7 @@
+import 'package:batch_student_starter/repository/student_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +15,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _usernameController = TextEditingController(text: 'kiran');
   final _passwordController = TextEditingController(text: 'kiran123');
+
+  _login() async {
+    final student = await StudentRepositoryImpl()
+        .loginStudent(_usernameController.text, _passwordController.text);
+    if (student != null) {
+      _goToAnotherPage();
+    } else {
+      _showMessage();
+    }
+  }
+
+  _goToAnotherPage() {
+    Navigator.pushNamed(context, '/dashboardScreen');
+  }
+
+  _showMessage() {
+    MotionToast.error(description: const Text("Invalid username or password"))
+        .show(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 8),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          _login();
+                        }
                       },
                       child: const SizedBox(
                         height: 40,

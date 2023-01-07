@@ -21,7 +21,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final List<Batch> _lstBatches = [];
   List<Course> _lstCourseSelected = [];
-  String _dropDownValue = "";
+  Batch? _dropDownValue;
 
   final _key = GlobalKey<FormState>();
   final _fnameController = TextEditingController(text: 'Kiran');
@@ -38,11 +38,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     //  Get the batch object from the list of batches
-    final batch = _lstBatches
-        .firstWhere((element) => element.batchName == _dropDownValue);
+    // final batch = _lstBatches
+    //     .firstWhere((element) => element.batchName == _dropDownValue);
 
-    student.batch.target = batch;
-    // Insert all the course instance in Student Box
+    // student.batch.target = batch;
+    student.batch.target = _dropDownValue;
+    // // Insert all the course instance in Student Box
     for (Course c in _lstCourseSelected) {
       student.course.add(c);
     }
@@ -128,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (snapshot.hasData) {
                         return DropdownButtonFormField(
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
+                            if (value == null) {
                               return 'Please select batch';
                             }
                             return null;
@@ -139,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           items: snapshot.data!
                               .map((batch) => DropdownMenuItem(
-                                    value: batch.batchName,
+                                    value: batch,
                                     child: Text(batch.batchName),
                                   ))
                               .toList(),
@@ -155,10 +156,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   FutureBuilder(
-                    future: CourseRepositoryImpl().getCourse(),
+                    future: CourseRepositoryImpl().getAllCourse(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return MultiSelectDialogField(
+                          title: const Text("Select Course"),
                           items: snapshot.data!
                               .map((course) =>
                                   MultiSelectItem(course, course.courseName))

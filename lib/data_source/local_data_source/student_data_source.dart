@@ -1,5 +1,4 @@
 import 'package:batch_student_starter/helper/objectbox.dart';
-import 'package:batch_student_starter/model/batch.dart';
 
 import '../../model/student.dart';
 import '../../state/objectbox_state.dart';
@@ -27,19 +26,11 @@ class StudentDataSource {
     }
   }
 
-  Future<int> addBatch(Batch batch) async {
+  Future<Student> loginStudent(String username, String password) {
     try {
-      return objectBoxInstace.addBatch(batch);
+      return Future.value(objectBoxInstace.loginStudent(username, password));
     } catch (e) {
-      return Future.value(0); 
-    }
-  }
-
-  Future<List<Batch>> getBatch() async {
-    try {
-      return objectBoxInstace.getAllBatch();
-    } catch (e) {
-      throw Exception("Error in getting all batch");
+      return Future.value(null);
     }
   }
 }

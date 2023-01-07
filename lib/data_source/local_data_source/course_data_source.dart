@@ -12,15 +12,23 @@ class CourseDataSource {
     try {
       return objectBoxInstace.addCourse(course);
     } catch (e) {
-      return Future.value(0);
+      return 0;
     }
   }
 
-  Future<List<Course>> getCourse() async {
+  Future<List<Course>> getAllCourse() async {
     try {
       return objectBoxInstace.getAllCourses();
     } catch (e) {
-      throw Exception("Error in getting all courses");
+      return [];
+    }
+  }
+
+  Future<Course?> getCourseByCourseName(String courseName) async {
+    try {
+      return objectBoxInstace.GetCourseByCourseName(courseName);
+    } catch (e) {
+      return null;
     }
   }
 }
